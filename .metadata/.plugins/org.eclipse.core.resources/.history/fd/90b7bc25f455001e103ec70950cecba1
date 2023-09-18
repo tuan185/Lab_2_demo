@@ -246,16 +246,16 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 		if(status > 3) status = 0;
 		if(status == 0){
 			//Display in LED_1
-			update7SEG(0);
+			display7SEG(1, 1);
 		}else if(status == 1){
 			//Display in LED_2
-			update7SEG(1);
+			display7SEG(2, 2);
 		}else if(status == 2){
 			//Display in LED_3
-			update7SEG(2);
+			display7SEG(3, 3);
 		}else if(status == 3){
 			//Display in LED_4
-			update7SEG(3);
+			display7SEG(4, 0);
 		}
 		status++;
 	}
@@ -277,6 +277,15 @@ uint8_t LED[10] = {0x3F,		//decode for 0
 				0x6F};			//decode for 9
 
 void display7SEG(int num){
+	if(LED_number == 1){
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, RESET);
+	}else if(LED_number == 2){
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, RESET);
+	}else if(LED_number == 3){
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, RESET);
+	}else if(LED_number == 4){
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, RESET);
+	}
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, !((LED[num]>>0)&0x01));
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, !((LED[num]>>1)&0x01));
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, !((LED[num]>>2)&0x01));
@@ -286,29 +295,11 @@ void display7SEG(int num){
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, !((LED[num]>>6)&0x01));
 }
 
-
 const int MAX_SIZE = 4;
 int index_led = 0;
 int led_buffer[4] = {1,2,3,4};
 void update7SEG(int index){
-	switch(index){
-	case 0:
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, RESET);
-		display7SEG(led_buffer[0]);
-		break;
-	case 1:
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, RESET);
-		display7SEG(led_buffer[1]);
-		break;
-	case 2:
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, RESET);
-		display7SEG(led_buffer[2]);
-		break;
-	case 3:
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, RESET);
-		display7SEG(led_buffer[3]);
-		break;
-	}
+
 }
 /* USER CODE END 4 */
 
