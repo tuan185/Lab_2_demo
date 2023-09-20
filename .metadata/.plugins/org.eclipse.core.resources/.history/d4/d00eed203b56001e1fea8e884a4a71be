@@ -44,9 +44,6 @@ TIM_HandleTypeDef htim2;
 int timer0_counter = 0;
 int timer0_flag = 0;
 int TIMER_CYCLE = 10;
-const int MAX_SIZE = 4;
-int index_led = 0;
-int led_buffer[4] = {1,2,3,4};
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -301,6 +298,9 @@ void display7SEG(int num){
 }
 
 
+const int MAX_SIZE = 4;
+int index_led = 0;
+int led_buffer[4] = {1,2,3,4};
 void update7SEG(int index){
 	switch(index){
 	case 0:

@@ -44,9 +44,6 @@ TIM_HandleTypeDef htim2;
 int timer0_counter = 0;
 int timer0_flag = 0;
 int TIMER_CYCLE = 10;
-const int MAX_SIZE = 4;
-int index_led = 0;
-int led_buffer[4] = {1,2,3,4};
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -124,19 +121,21 @@ int main(void)
 			  if(second >= 60){
 				  second = 0;
 				  minute++;
+				  updateClockBuffer(hour, minute);
 			  }
 			  if(minute >= 60){
 				  minute = 0;
 				  hour++;
+				  updateClockBuffer(hour, minute);
 			  }
 			  if(hour >= 24){
 				  hour = 0;
+				  updateClockBuffer(hour, minute);
 			  }
-			  updateClockBuffer(hour, minute);
 		  }
 
 		  if(counter <= 0){
-			  counter = 25;
+			  counter = 50;
 			  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 			  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_8 | GPIO_PIN_9, SET);
 			  if(status > 3) status = 0;
@@ -301,6 +300,9 @@ void display7SEG(int num){
 }
 
 
+const int MAX_SIZE = 4;
+int index_led = 0;
+int led_buffer[4] = {1,2,3,4};
 void update7SEG(int index){
 	switch(index){
 	case 0:
