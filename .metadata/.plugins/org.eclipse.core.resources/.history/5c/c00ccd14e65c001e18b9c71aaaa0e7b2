@@ -117,7 +117,7 @@ int main(void)
   int hour = 15, minute = 8, second = 50;
   int counter = 25;
   int counter_LED = 100;
-  int counter_LED_Matrix = 5;
+  int counter_LED_Matrix = 20;
   int status = 0;
   int matrix_status = 0;
   /* Infinite loop */

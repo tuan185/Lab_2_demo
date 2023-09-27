@@ -49,14 +49,7 @@ int index_led = 0;
 int led_buffer[4] = {1,2,3,4};
 const int MAX_LED_MATRIX = 8;
 int index_led_matrix = 0;
-uint8_t matrix_buffer[8] = {0b00110000,
-		0b01111000,
-		0b11001100,
-		0b11001100,
-		0b11111100,
-		0b11001100,
-		0b11001100,
-		0b00000000};
+uint8_t matrix_buffer[8] = {0b00110000,0b01111000,0b11001100,0b11001100,0b11111100,0b11001100,0b11001100,0b00000000};
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -117,7 +110,7 @@ int main(void)
   int hour = 15, minute = 8, second = 50;
   int counter = 25;
   int counter_LED = 100;
-  int counter_LED_Matrix = 5;
+  int counter_LED_Matrix = 20;
   int status = 0;
   int matrix_status = 0;
   /* Infinite loop */
@@ -160,7 +153,7 @@ int main(void)
 			  status++;
 		  }
 		  if(counter_LED_Matrix <= 0){
-			  counter_LED_Matrix = 10;
+			  counter = 20;
 			  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_11|
 					  GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15, SET);
 			if(matrix_status > 7) matrix_status = 0;

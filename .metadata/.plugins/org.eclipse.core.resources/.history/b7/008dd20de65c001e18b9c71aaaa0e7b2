@@ -117,7 +117,7 @@ int main(void)
   int hour = 15, minute = 8, second = 50;
   int counter = 25;
   int counter_LED = 100;
-  int counter_LED_Matrix = 5;
+  int counter_LED_Matrix = 20;
   int status = 0;
   int matrix_status = 0;
   /* Infinite loop */
@@ -160,7 +160,7 @@ int main(void)
 			  status++;
 		  }
 		  if(counter_LED_Matrix <= 0){
-			  counter_LED_Matrix = 10;
+			  counter_LED_Matrix = 20;
 			  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_11|
 					  GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15, SET);
 			if(matrix_status > 7) matrix_status = 0;
