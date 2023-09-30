@@ -49,13 +49,14 @@ int index_led = 0;
 int led_buffer[4] = {1,2,3,4};
 const int MAX_LED_MATRIX = 8;
 int index_led_matrix = 0;
-uint8_t matrix_buffer[8] = {0b00110000,
-		0b01111000,
-		0b11001100,
-		0b11001100,
-		0b11111100,
-		0b11001100,
-		0b11001100,
+uint8_t matrix_buffer[8] = {
+		0b00001100,
+		0b00011110,
+		0b00110011,
+		0b00110011,
+		0b00111111,
+		0b00110011,
+		0b00110011,
 		0b00000000};
 /* USER CODE BEGIN PV */
 
@@ -68,6 +69,8 @@ static void MX_TIM2_Init(void);
 void display7SEG(int num);
 void update7SEG(int index);
 void updateLEDMatrix(int index);
+void displayLEDMatrix(int col);
+void animationLEDMatrix(int col, int shift_step);
 void updateClockBuffer(int hour, int minute);
 void setTimer0(int duration);
 void timer_run();
@@ -120,6 +123,7 @@ int main(void)
   int counter_LED_Matrix = 5;
   int status = 0;
   int matrix_status = 0;
+  int shift_step = 0;
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   setTimer0(10);
@@ -163,7 +167,12 @@ int main(void)
 			  counter_LED_Matrix = 10;
 			  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_11|
 					  GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15, SET);
-			if(matrix_status > 7) matrix_status = 0;
+			if(matrix_status > 7){
+				matrix_status = 0;
+				shift_step++;
+				if(shift_step > 7) shift_step = 0;
+			}
+			animationLEDMatrix(matrix_buffer[matrix_status], shift_step);
 			updateLEDMatrix(matrix_status);
 			matrix_status++;
 		  }
@@ -321,6 +330,9 @@ void display7SEG(int num){
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, !((LED[num]>>5)&0x01));
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, !((LED[num]>>6)&0x01));
 }
+void animationLEDMatrix(int col, int shift_step){
+	displayLEDMatrix(col << shift_step);
+}
 
 
 void update7SEG(int index){
@@ -377,35 +389,27 @@ void updateLEDMatrix(int index){
 	switch(index){
 	case 0:
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8, RESET);
-		displayLEDMatrix(matrix_buffer[0]);
 		break;
 	case 1:
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_9, RESET);
-		displayLEDMatrix(matrix_buffer[1]);
 		break;
 	case 2:
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, RESET);
-		displayLEDMatrix(matrix_buffer[2]);
 		break;
 	case 3:
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, RESET);
-		displayLEDMatrix(matrix_buffer[3]);
 		break;
 	case 4:
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, RESET);
-		displayLEDMatrix(matrix_buffer[4]);
 		break;
 	case 5:
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, RESET);
-		displayLEDMatrix(matrix_buffer[5]);
 		break;
 	case 6:
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, RESET);
-		displayLEDMatrix(matrix_buffer[6]);
 		break;
 	case 7:
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, RESET);
-		displayLEDMatrix(matrix_buffer[7]);
 		break;
 	default:
 		break;
